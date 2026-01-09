@@ -33,14 +33,14 @@ export default function RoofingForm() {
     if (currentStep.type === "choice") return true;
 
     const fields = currentStep.fields || [];
-    // Create a copy to update normalized values (like phone numbers)
+    // We create a temporary copy of current form data to update it with normalized values
     const updatedData = { ...formData };
 
     for (const field of fields) {
       const val = formData[field.id];
       const stringVal = String(val || "").trim();
 
-      // 1️⃣ Basic empty / minimum length validation
+      // 1️ Basic empty / minimum length validation
       const isNumberField = field.id === "bedrooms" || field.id === "bathrooms";
       const minLength = isNumberField ? 1 : 2;
 
@@ -50,24 +50,28 @@ export default function RoofingForm() {
         return false;
       }
 
-      // 2️⃣ 🌍 International phone validation (Works for UK and International like +92)
+      // 2️ International phone validation (Any valid country)
       if (field.id === "phone") {
         const phoneNumber = parsePhoneNumber(stringVal, {
-          defaultCountry: "GB", // Fallback for local UK numbers
-          extract: false, // Strict: whole string must be the number
+          // Default to UK for local numbers, but +92 will override this
+          defaultCountry: "GB",
+          extract: false,
         });
 
+        // Check if the number is valid for the specific country detected (e.g. Pakistan)
         if (!phoneNumber || !phoneNumber.isValid()) {
           setError("Please enter a valid phone number");
           return false;
         }
 
-        //  IMPORTANT: Save the normalized E.164 version (+92...)
-        // This ensures n8n and WhatsApp APIs receive the correct format.
+        //  Normalize the number to E.164 format (e.g. +92339...)
+        // This updates the local variable we use for final submission
         updatedData[field.id] = phoneNumber.number;
-        setFormData(updatedData);
       }
     }
+
+    // Update the actual form state with normalized values (like the cleaned phone number)
+    setFormData(updatedData);
 
     // Everything passed
     setError(null);
