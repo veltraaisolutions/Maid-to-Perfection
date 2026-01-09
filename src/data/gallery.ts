@@ -8,44 +8,50 @@ export interface GalleryProject {
 export const GALLERY_DATA: GalleryProject[] = [
   {
     id: 1,
-    title: "Slate Roof Installation",
-    category: "Residential",
-    imageUrl: "https://picsum.photos/seed/roof1/600/400",
+    title: "Weekly Domestic Maintenance",
+    category: "Domestic",
+    imageUrl:
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600",
   },
   {
     id: 2,
-    title: "Commercial Metal Roofing",
+    title: "Professional Office Care",
     category: "Commercial",
-    imageUrl: "https://picsum.photos/seed/roof2/600/400",
+    imageUrl:
+      "https://images.unsplash.com/photo-1527515545081-5db817172677?auto=format&fit=crop&q=80&w=600",
   },
   {
     id: 3,
-    title: "Emergency Leak Repair",
-    category: "Repair",
-    imageUrl: "https://picsum.photos/seed/roof3/600/400",
+    title: "Move-Out Deep Clean",
+    category: "End of Tenancy",
+    imageUrl:
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600",
   },
   {
     id: 4,
-    title: "Flat Roof GRP System",
-    category: "Flat Roof",
-    imageUrl: "https://picsum.photos/seed/roof4/600/400",
+    title: "Post-Construction Refresh",
+    category: "Deep Clean",
+    imageUrl:
+      "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&q=80&w=600",
   },
   {
     id: 5,
-    title: "Chimney Re-pointing",
-    category: "Maintenance",
-    imageUrl: "https://picsum.photos/seed/roof5/600/400",
+    title: "Fortnightly Family Home Clean",
+    category: "Domestic",
+    imageUrl:
+      "https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?auto=format&fit=crop&q=80&w=600",
   },
   {
     id: 6,
-    title: "Tiled Roof Replacement",
-    category: "Residential",
-    imageUrl: "https://picsum.photos/seed/roof6/600/400",
+    title: "High-Traffic Retail Cleaning",
+    category: "Commercial",
+    imageUrl:
+      "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?auto=format&fit=crop&q=80&w=600",
   },
 ];
 
 export const GALLERY_STATS = {
-  projectCount: "2,400+",
+  projectCount: "1,500+",
   rating: "5.0",
-  reviewCount: "490+",
+  reviewCount: "320+",
 };

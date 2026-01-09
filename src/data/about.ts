@@ -8,20 +8,18 @@ export interface AboutData {
 }
 
 export const ABOUT_DATA: AboutData = {
-  ownerName: "Eamon Orfally",
-  role: "Founder & Lead Surveyor",
-  bio: "With over 15 years of hands-on experience in the roofing industry, I founded this company on a simple principle: doing things right the first time. We don't just fix roofs; we protect homes and families.",
+  ownerName: "Kayleigh Annie,",
+  role: "Founder & Lead Coordinator",
+  bio: "With a passion for detail and 16 dedicated staff, I founded this company to give families their time back. We don't just clean; we create a sanctuary for your family.",
   stats: [
     { label: "Years Exp.", value: "15+" },
     { label: "Local Jobs", value: "2k+" },
   ],
   points: [
-    "Fully Licensed & Insured",
-    "Insurance Claim Specialist",
-    "Garantueed Workmanship",
-    "No Hidden Costs",
+    "DBS Checked & Fully Insured",
+    "Regular & One-Off Specialists",
+    "Satisfaction Guaranteed",
+    "16+ Professional Staff",
   ],
-  //   imageUrl: "https://picsum.photos/seed/owner/800/1000",
-  imageUrl:
-    "https://res.cloudinary.com/di611res2/image/upload/v1767285045/Gemini_Generated_Image_ki7yo9ki7yo9ki7y_hnu8cg.png",
+  imageUrl: "https://picsum.photos/seed/owner/800/1000",
 };

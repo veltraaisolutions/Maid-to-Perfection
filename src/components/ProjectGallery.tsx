@@ -18,8 +18,8 @@ export default function ProjectGallery() {
           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-none">
             OVER{" "}
             <span className="text-brand">{GALLERY_STATS.projectCount}</span>{" "}
-            PROJECTS <br />
-            COMPLETED SINCE 2010
+            HOMES <br />
+            TRANSFORMED SINCE 2015
           </h2>
         </div>
 

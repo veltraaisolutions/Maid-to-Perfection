@@ -37,8 +37,8 @@ export default function AboutSection() {
             Meet the Owner
           </p>
           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-none mb-6">
-            DRIVEN BY <br />
-            <span className="text-brand">QUALITY.</span>
+            Your Home, <br />
+            <span className="text-brand">Our Priority.</span>
           </h2>
 
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
