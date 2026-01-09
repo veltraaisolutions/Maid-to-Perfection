@@ -33,6 +33,8 @@ export default function RoofingForm() {
     if (currentStep.type === "choice") return true;
 
     const fields = currentStep.fields || [];
+    // Create a copy to update normalized values (like phone numbers)
+    const updatedData = { ...formData };
 
     for (const field of fields) {
       const val = formData[field.id];
@@ -48,19 +50,22 @@ export default function RoofingForm() {
         return false;
       }
 
-      // 2️⃣ 🌍 International phone validation (ANY country)
+      // 2️⃣ 🌍 International phone validation (Works for UK and International like +92)
       if (field.id === "phone") {
         const phoneNumber = parsePhoneNumber(stringVal, {
-          extract: false, // 👈 strict: entire input must be a phone number
+          defaultCountry: "GB", // Fallback for local UK numbers
+          extract: false, // Strict: whole string must be the number
         });
 
         if (!phoneNumber || !phoneNumber.isValid()) {
-          setError("Please enter a valid phone number");
+          setError("Please enter a valid phone number (e.g., +923398787878)");
           return false;
         }
 
-        // (Optional) normalize phone before submit
-        // formData.phone = phoneNumber.number; // E.164 format
+        //  IMPORTANT: Save the normalized E.164 version (+92...)
+        // This ensures n8n and WhatsApp APIs receive the correct format.
+        updatedData[field.id] = phoneNumber.number;
+        setFormData(updatedData);
       }
     }
 
