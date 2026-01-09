@@ -29,7 +29,7 @@ export interface FormField {
 export interface FormStep {
   id: string;
   question: string;
-  type: "choice" | "text" | "phone";
+  type: "choice" | "multiple-choice" | "text" | "phone"; // Add "multiple-choice" here
   options?: FormOption[];
   fields?: FormField[];
 }
@@ -62,6 +62,7 @@ export const FORM_CONFIG: FormConfig = {
         { label: "One-off", value: "One-off", icon: CheckCircle2 },
         { label: "Weekly", value: "Weekly", icon: Repeat },
         { label: "Fortnightly", value: "Fortnightly", icon: Calendar },
+        { label: " Bi-weekly", value: " Bi-weekly", icon: Calendar },
       ],
     },
     {
@@ -88,7 +89,7 @@ export const FORM_CONFIG: FormConfig = {
     {
       id: "requirements",
       question: "Specific Requirements",
-      type: "choice",
+      type: "multiple-choice",
       options: [
         { label: "I have Pets", value: "pets_yes", icon: Cat },
         {
@@ -97,7 +98,6 @@ export const FORM_CONFIG: FormConfig = {
           icon: Stethoscope,
         },
         { label: "Need Bed Changes", value: "beds_yes", icon: BedDouble },
-        { label: "No Extra Needs", value: "standard", icon: CheckCircle2 },
       ],
     },
     {

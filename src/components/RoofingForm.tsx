@@ -15,7 +15,8 @@ import confetti from "canvas-confetti";
 import { FORM_CONFIG, FormStep } from "../data/questions";
 import parsePhoneNumber from "libphonenumber-js/max";
 
-type FormAnswers = Record<string, string | number | boolean>;
+// Updated type to support arrays for multiple-choice
+type FormAnswers = Record<string, string | number | boolean | string[]>;
 
 export default function RoofingForm() {
   const [stepIndex, setStepIndex] = useState<number>(0);
@@ -29,18 +30,27 @@ export default function RoofingForm() {
   const progress = ((stepIndex + 1) / FORM_CONFIG.steps.length) * 100;
 
   const validateStep = () => {
-    // Button / choice steps are always valid
+    // 1. Validation for Multiple Choice (Ensure at least one is selected)
+    if (currentStep.type === "multiple-choice") {
+      const selections = (formData[currentStep.id] as string[]) || [];
+      if (selections.length === 0) {
+        setError("Please select at least one option");
+        return false;
+      }
+      return true;
+    }
+
+    // 2. Simple choice steps are always valid
     if (currentStep.type === "choice") return true;
 
     const fields = currentStep.fields || [];
-    // We create a temporary copy of current form data to update it with normalized values
     const updatedData = { ...formData };
 
     for (const field of fields) {
       const val = formData[field.id];
       const stringVal = String(val || "").trim();
 
-      // 1️ Basic empty / minimum length validation
+      // Basic empty field validation
       const isNumberField = field.id === "bedrooms" || field.id === "bathrooms";
       const minLength = isNumberField ? 1 : 2;
 
@@ -50,40 +60,42 @@ export default function RoofingForm() {
         return false;
       }
 
-      // 2️ International phone validation (Any valid country)
+      // 3. Robust Phone Validation (Handles 07... -> +44 automatically)
       if (field.id === "phone") {
-        const phoneNumber = parsePhoneNumber(stringVal, {
-          // Default to UK for local numbers, but +92 will override this
-          defaultCountry: "GB",
-          extract: false,
-        });
+        try {
+          const phoneNumber = parsePhoneNumber(stringVal, "GB");
 
-        // Check if the number is valid for the specific country detected (e.g. Pakistan)
-        if (!phoneNumber || !phoneNumber.isValid()) {
-          setError("Please enter a valid phone number");
+          if (!phoneNumber || !phoneNumber.isValid()) {
+            setError("Please enter a valid UK mobile number");
+            return false;
+          }
+
+          // phoneNumber.number converts 07123456789 into +447123456789
+          updatedData[field.id] = phoneNumber.number;
+        } catch (e) {
+          setError("Invalid phone format. Try 07123 456789");
           return false;
         }
-
-        //  Normalize the number to E.164 format (e.g. +92339...)
-        // This updates the local variable we use for final submission
-        updatedData[field.id] = phoneNumber.number;
       }
     }
 
-    // Update the actual form state with normalized values (like the cleaned phone number)
+    // Save the normalized data (with the +44 version) back to state
     setFormData(updatedData);
-
-    // Everything passed
     setError(null);
     return true;
   };
 
   const handleNext = async (value?: string) => {
     const updatedData = { ...formData };
-    if (value) updatedData[currentStep.id] = value;
+
+    // If a value is passed (single choice), save it
+    if (value && currentStep.type === "choice") {
+      updatedData[currentStep.id] = value;
+    }
+
     setFormData(updatedData);
 
-    // If it's a text/phone step, validate before moving
+    // Validate before moving (for text fields)
     if (!value && !validateStep()) return;
 
     if (stepIndex < FORM_CONFIG.steps.length - 1) {
@@ -95,6 +107,18 @@ export default function RoofingForm() {
     }
   };
 
+  const toggleOption = (value: string) => {
+    const currentSelections = (formData[currentStep.id] as string[]) || [];
+    const newSelections = currentSelections.includes(value)
+      ? currentSelections.filter((item) => item !== value)
+      : [...currentSelections, value];
+
+    setFormData((prev) => ({
+      ...prev,
+      [currentStep.id]: newSelections,
+    }));
+  };
+
   const submitToN8N = async (finalData: FormAnswers) => {
     setLoading(true);
     try {
@@ -103,54 +127,41 @@ export default function RoofingForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...finalData,
-          source: "Roofing Website Template",
+          source: "Cleaning Website Template",
           timestamp: new Date().toISOString(),
-          status: "lead_generated", // Default status for n8n
+          status: "lead_generated",
         }),
       });
 
-      //  START OF  CELEBRATION animation
-      const duration = 3 * 1000; // How long the sparkles keep firing (3 seconds)
+      const duration = 3 * 1000;
       const animationEnd = Date.now() + duration;
-
-      // Default settings for each individual burst
       const defaults = {
-        startVelocity: 30, // Initial speed (higher = faster explosion)
-        spread: 360, // 360 means it shoots in all directions
-        ticks: 150, // How many frames the sparkles stay on screen (higher = longer life)
+        startVelocity: 30,
+        spread: 360,
+        ticks: 150,
         zIndex: 0,
       };
-
       const randomInRange = (min: number, max: number) =>
         Math.random() * (max - min) + min;
 
-      // This creates a loop that fires multiple bursts
       const interval: any = setInterval(function () {
         const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) return clearInterval(interval);
 
-        // Stop the loop when the 3 seconds are up
-        if (timeLeft <= 0) {
-          return clearInterval(interval);
-        }
-
-        // We fire two bursts at once: one from the left, one from the right
-        // Left Side burst
-        confetti({
-          ...defaults,
-          particleCount: 80, // Number of sparkles per burst
-          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, // Position (0.1 is far left)
-          colors: ["#dc2626", "#ffffff", "#1e293b"], // Brand Red, White, and Dark Blue
-        });
-
-        // Right Side burst
         confetti({
           ...defaults,
           particleCount: 80,
-          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, // Position (0.9 is far right)
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
           colors: ["#dc2626", "#ffffff", "#1e293b"],
         });
-      }, 250); // This fires a new burst every 250 milliseconds
-      // --- END OF CELEBRATION ---
+
+        confetti({
+          ...defaults,
+          particleCount: 80,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          colors: ["#dc2626", "#ffffff", "#1e293b"],
+        });
+      }, 250);
 
       setSubmitted(true);
     } catch (err) {
@@ -198,7 +209,7 @@ export default function RoofingForm() {
         <p className="text-muted-foreground text-base mb-8 leading-relaxed">
           Thanks,{" "}
           <span className="text-foreground font-bold">
-            {String(formData.firstName || "User")}
+            {String(formData.fullName || "User")}
           </span>
           ! Our team will contact you shortly.
         </p>
@@ -214,7 +225,6 @@ export default function RoofingForm() {
 
   return (
     <div className="max-w-xl mx-auto px-4">
-      {/* Mini Header */}
       <div className="mb-8 text-center mt-5">
         <h1 className="text-2xl md:text-3xl font-black mb-4 uppercase tracking-tighter italic">
           Maid To <span className="text-brand">Perfection</span>
@@ -240,24 +250,64 @@ export default function RoofingForm() {
           </h2>
 
           <div className="flex-grow flex flex-col justify-center">
-            {currentStep.type === "choice" && (
+            {(currentStep.type === "choice" ||
+              currentStep.type === "multiple-choice") && (
               <div className="grid grid-cols-2 gap-4">
-                {currentStep.options?.map((opt) => (
+                {currentStep.options?.map((opt) => {
+                  const isSelected =
+                    currentStep.type === "multiple-choice"
+                      ? ((formData[currentStep.id] as string[]) || []).includes(
+                          opt.value
+                        )
+                      : formData[currentStep.id] === opt.value;
+
+                  return (
+                    <button
+                      key={opt.value}
+                      onClick={() => {
+                        if (currentStep.type === "multiple-choice") {
+                          toggleOption(opt.value);
+                        } else {
+                          handleNext(opt.value);
+                        }
+                      }}
+                      className={`flex flex-col items-center justify-center p-6 rounded-2xl border-2 transition-all group active:scale-[0.96] ${
+                        isSelected
+                          ? "border-brand bg-brand/10"
+                          : "bg-muted/40 border-transparent hover:border-brand/50"
+                      }`}
+                    >
+                      <opt.icon
+                        className={`mb-3 transition-all ${
+                          isSelected
+                            ? "text-brand"
+                            : "text-muted-foreground group-hover:text-brand"
+                        }`}
+                        size={36}
+                        strokeWidth={1.5}
+                      />
+                      <span
+                        className={`font-bold text-sm text-center uppercase tracking-tight ${
+                          isSelected
+                            ? "text-foreground"
+                            : "text-foreground/70 group-hover:text-foreground"
+                        }`}
+                      >
+                        {opt.label}
+                      </span>
+                    </button>
+                  );
+                })}
+
+                {/* Manual Continue button for multiple-choice */}
+                {currentStep.type === "multiple-choice" && (
                   <button
-                    key={opt.value}
-                    onClick={() => handleNext(opt.value)}
-                    className="flex flex-col items-center justify-center p-6 bg-muted/40 border-2 border-transparent rounded-2xl hover:border-brand hover:bg-brand/5 transition-all group active:scale-[0.96]"
+                    onClick={() => handleNext()}
+                    className="col-span-2 mt-4 w-full h-14 bg-brand text-white font-black text-lg rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-brand/20 active:scale-[0.98] uppercase cursor-pointer"
                   >
-                    <opt.icon
-                      className="mb-3 text-muted-foreground group-hover:text-brand transition-all"
-                      size={36}
-                      strokeWidth={1.5}
-                    />
-                    <span className="font-bold text-sm text-center uppercase tracking-tight text-foreground/70 group-hover:text-foreground">
-                      {opt.label}
-                    </span>
+                    Continue <ChevronRight size={22} />
                   </button>
-                ))}
+                )}
               </div>
             )}
 
@@ -318,7 +368,6 @@ export default function RoofingForm() {
             )}
           </div>
 
-          {/* Mini Navigation */}
           <div className="mt-8 flex justify-between items-center border-t border-border/50 pt-6">
             {stepIndex > 0 ? (
               <button
@@ -327,7 +376,7 @@ export default function RoofingForm() {
               >
                 <ChevronLeft
                   size={16}
-                  className="mr-1 "
+                  className="mr-1"
                 />{" "}
                 Back
               </button>
