@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
+
 import React from "react";
-// import Image from "next/image";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { GALLERY_DATA, GALLERY_STATS } from "@/data/gallery";
 import { Star } from "lucide-react";
@@ -54,12 +54,17 @@ export default function ProjectGallery() {
             transition={{ delay: index * 0.1 }}
             className="group relative overflow-hidden rounded-[2rem] bg-card border border-border/50 aspect-[4/3]"
           >
-            {/* Image with Zoom Effect */}
+            {/* Image */}
             <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
-              <img
+              <Image
                 src={project.imageUrl}
                 alt={project.title}
-                className="w-full h-full object-cover brightness-75 group-hover:brightness-90 transition-all"
+                fill
+                sizes="(max-width: 768px) 100vw,
+                       (max-width: 1200px) 50vw,
+                       33vw"
+                className="object-cover brightness-75 group-hover:brightness-90 transition-all"
+                priority={index < 3}
               />
             </div>
 
@@ -68,16 +73,12 @@ export default function ProjectGallery() {
 
             {/* Content */}
             <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex justify-between items-end">
-                <div>
-                  <p className="text-brand font-black text-[10px] uppercase tracking-widest mb-1">
-                    {project.category}
-                  </p>
-                  <h3 className="text-xl font-black uppercase italic tracking-tighter text-white">
-                    {project.title}
-                  </h3>
-                </div>
-              </div>
+              <p className="text-brand font-black text-[10px] uppercase tracking-widest mb-1">
+                {project.category}
+              </p>
+              <h3 className="text-xl font-black uppercase italic tracking-tighter text-white">
+                {project.title}
+              </h3>
             </div>
           </motion.div>
         ))}

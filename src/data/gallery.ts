@@ -10,43 +10,103 @@ export const GALLERY_DATA: GalleryProject[] = [
     id: 1,
     title: "Weekly Domestic Maintenance",
     category: "Domestic",
-    imageUrl:
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600",
+    imageUrl: "/Img/1.jpeg",
   },
   {
     id: 2,
     title: "Professional Office Care",
     category: "Commercial",
-    imageUrl:
-      "https://images.unsplash.com/photo-1527515545081-5db817172677?auto=format&fit=crop&q=80&w=600",
+    imageUrl: "/Img/2.jpeg",
   },
   {
     id: 3,
     title: "Move-Out Deep Clean",
     category: "End of Tenancy",
-    imageUrl:
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600",
+    imageUrl: "/Img/3.jpeg",
   },
   {
     id: 4,
     title: "Post-Construction Refresh",
     category: "Deep Clean",
-    imageUrl:
-      "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&q=80&w=600",
+    imageUrl: "/Img/4.jpeg",
   },
   {
     id: 5,
     title: "Fortnightly Family Home Clean",
     category: "Domestic",
-    imageUrl:
-      "https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?auto=format&fit=crop&q=80&w=600",
+    imageUrl: "/Img/5.jpeg",
   },
   {
     id: 6,
     title: "High-Traffic Retail Cleaning",
     category: "Commercial",
-    imageUrl:
-      "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?auto=format&fit=crop&q=80&w=600",
+    imageUrl: "/Img/6.jpeg",
+  },
+  {
+    id: 7,
+    title: "Apartment Deep Cleaning",
+    category: "Residential",
+    imageUrl: "/Img/7.jpeg",
+  },
+  {
+    id: 8,
+    title: "Kitchen Hygiene Service",
+    category: "Deep Clean",
+    imageUrl: "/Img/8.jpeg",
+  },
+  {
+    id: 9,
+    title: "Bathroom Sanitization",
+    category: "Deep Clean",
+    imageUrl: "/Img/9.jpeg",
+  },
+  {
+    id: 10,
+    title: "After-Party Cleanup",
+    category: "Special Service",
+    imageUrl: "/Img/10.jpeg",
+  },
+  {
+    id: 11,
+    title: "Carpet & Floor Care",
+    category: "Commercial",
+    imageUrl: "/Img/11.jpeg",
+  },
+  {
+    id: 12,
+    title: "Glass & Window Cleaning",
+    category: "Residential",
+    imageUrl: "/Img/12.jpeg",
+  },
+  {
+    id: 13,
+    title: "Villa Full Cleaning",
+    category: "Domestic",
+    imageUrl: "/Img/13.jpeg",
+  },
+  {
+    id: 14,
+    title: "Office Desk Sanitization",
+    category: "Commercial",
+    imageUrl: "/Img/14.jpeg",
+  },
+  {
+    id: 15,
+    title: "Move-In Cleaning",
+    category: "End of Tenancy",
+    imageUrl: "/Img/15.jpeg",
+  },
+  {
+    id: 16,
+    title: "Restaurant Cleaning",
+    category: "Commercial",
+    imageUrl: "/Img/16.jpeg",
+  },
+  {
+    id: 17,
+    title: "Warehouse Deep Clean",
+    category: "Industrial",
+    imageUrl: "/Img/17.jpeg",
   },
 ];
 
