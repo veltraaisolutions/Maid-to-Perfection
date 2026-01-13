@@ -16,7 +16,7 @@ export default function ProjectGallery() {
     : GALLERY_DATA;
 
   return (
-    <section className="py-24 w-full max-w-6xl mx-auto px-4 bg-black">
+    <section className="py-24 w-full max-w-6xl mx-auto px-4 bg-transparent">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
         <div className="max-w-2xl">
@@ -45,7 +45,7 @@ export default function ProjectGallery() {
         </div>
 
         {!selectedFolder && (
-          <div className="bg-card border border-white/10 p-4 rounded-2xl flex items-center gap-4 shadow-2xl">
+          <div className="bg-black/40 backdrop-blur-md border border-white/10 p-4 rounded-2xl flex items-center gap-4 shadow-2xl">
             <div className="bg-brand/10 p-3 rounded-xl">
               <Star
                 className="text-brand"
@@ -57,7 +57,7 @@ export default function ProjectGallery() {
               <p className="text-2xl font-black italic text-white">
                 {GALLERY_STATS.rating}/5
               </p>
-              <p className="text-[10px] uppercase font-bold tracking-widest text-gray-500">
+              <p className="text-[10px] uppercase font-bold tracking-widest text-gray-400">
                 {GALLERY_STATS.reviewCount} Premium Reviews
               </p>
             </div>
@@ -94,7 +94,7 @@ export default function ProjectGallery() {
                 onClick={() =>
                   isFolderView && setSelectedFolder(item as GalleryProject)
                 }
-                className={`group relative overflow-hidden rounded-[2rem] bg-card border border-white/5 aspect-[4/3] ${
+                className={`group relative overflow-hidden rounded-[2rem] bg-black/20 backdrop-blur-sm border border-white/5 aspect-[4/3] ${
                   isFolderView ? "cursor-pointer" : "cursor-default"
                 }`}
               >
@@ -105,7 +105,7 @@ export default function ProjectGallery() {
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <p className="text-brand font-black text-[10px] uppercase tracking-[0.2em] mb-1 flex items-center gap-2">

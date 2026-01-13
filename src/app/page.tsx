@@ -6,14 +6,12 @@ import TrustBadges from "@/components/TrustBadges";
 
 export default function Home() {
   return (
-    <main className="dark min-h-screen bg-background text-foreground flex flex-col items-center justify-center py-10 px-4 selection:bg-brand selection:text-white">
-      {/* Decorative Background Elements */}
+    <main className="min-h-screen text-foreground flex flex-col items-center justify-center py-10 px-4 selection:bg-brand selection:text-white">
       <TrustBadges />
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-brand/5 blur-[120px] rounded-full" />
         <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-brand/5 blur-[120px] rounded-full" />
       </div>
-
       {/* The Form Component */}
       <div className="relative z-10 w-full">
         <RoofingForm />
