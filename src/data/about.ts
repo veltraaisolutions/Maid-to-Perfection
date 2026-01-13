@@ -8,7 +8,7 @@ export interface AboutData {
 }
 
 export const ABOUT_DATA: AboutData = {
-  ownerName: "Kayleigh Annie,",
+  ownerName: "Kayleigh-Anne,",
   role: "Founder & Lead Coordinator",
   bio: "With a passion for detail and 16 dedicated staff, I founded this company to give families their time back. We don't just clean; we create a sanctuary for your family.",
   stats: [
@@ -16,10 +16,10 @@ export const ABOUT_DATA: AboutData = {
     { label: "Local Jobs", value: "2k+" },
   ],
   points: [
-    "DBS Checked & Fully Insured",
+    "DBS Checked",
     "Regular & One-Off Specialists",
     "Satisfaction Guaranteed",
     "16+ Professional Staff",
   ],
-  imageUrl: "https://picsum.photos/seed/owner/800/1000",
+  imageUrl: "/Img/Kayleigh-Anne.jpeg",
 };

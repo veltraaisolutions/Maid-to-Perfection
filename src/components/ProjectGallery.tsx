@@ -29,6 +29,7 @@ export default function ProjectGallery() {
             {selectedFolder && <ArrowLeft size={14} />}
             {selectedFolder ? "Back to Portfolio" : "Our Excellence"}
           </button>
+
           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-none text-white">
             {selectedFolder ? (
               selectedFolder.title
@@ -101,25 +102,16 @@ export default function ProjectGallery() {
                   src={imageUrl}
                   alt={title}
                   fill
-                  className="object-cover brightness-50 group-hover:brightness-75 transition-all duration-700 group-hover:scale-110"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                {/* Premium Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90 group-hover:opacity-80 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <p className="text-brand font-black text-[10px] uppercase tracking-[0.2em] mb-1 flex items-center gap-2">
                     {isFolderView && <FolderOpen size={10} />}
                     {category}
                   </p>
-
-                  {/* {isFolderView ? (
-                    <h3 className="text-white font-bold uppercase italic text-lg tracking-tight">
-                      {(item as GalleryProject).title}
-                    </h3>
-                  ) : (
-                    <></>
-                  )} */}
 
                   {isFolderView && (
                     <p className="text-brand/60 text-[9px] uppercase font-black mt-2 tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">

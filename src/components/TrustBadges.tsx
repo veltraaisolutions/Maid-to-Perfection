@@ -1,5 +1,5 @@
 import React from "react";
-import { Star, ShieldCheck, Clock, Award } from "lucide-react";
+import { Star, ShieldCheck, Award } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function TrustBadges() {
@@ -23,17 +23,7 @@ export default function TrustBadges() {
         />
       ),
       text: "Fully Insured",
-      sub: "£5M Public Liability",
-    },
-    {
-      icon: (
-        <Clock
-          size={16}
-          className="text-brand"
-        />
-      ),
-      text: "Rapid Response",
-      sub: "Emergency Callouts",
+      sub: "£2M Public Liability",
     },
     {
       icon: (
@@ -50,14 +40,18 @@ export default function TrustBadges() {
   return (
     <div className="w-full bg-card/30 backdrop-blur-md border-b border-border/50 py-3">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+        <div className="grid grid-cols-3 gap-4 md:gap-8">
           {badges.map((badge, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="flex items-center gap-3 justify-center md:justify-start"
+              className={`flex items-center gap-3 w-full
+                ${i === 0 ? "justify-start pl-2" : ""}
+                ${i === 1 ? "justify-center" : ""}
+                ${i === 2 ? "justify-end pr-2" : ""}
+              `}
             >
               <div className="bg-background p-2 rounded-lg border border-border shadow-sm">
                 {badge.icon}
